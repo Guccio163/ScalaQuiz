@@ -3,12 +3,13 @@ package com.quiz.scala
 import org.mongodb.scala.{Document, MongoCollection, Observable, Observer}
 import org.mongodb.scala._
 import org.mongodb.scala.bson.BsonDocument
-import org.mongodb.scala.bson.collection.immutable.Document
+//import org.mongodb.scala.bson.collection.immutable.Document
 import org.mongodb.scala.bson.collection.mutable
 import org.mongodb.scala._
 import org.mongodb.scala.model.Filters._
 import org.mongodb.scala.model.Projections._
 import org.mongodb.scala.model.Sorts._
+
 
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import scala.concurrent.{Await, Future}
@@ -28,7 +29,10 @@ class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
     val result: Seq[Document] = Await.result(futureResult, 5.seconds)
     var counter = 0
     result.foreach { document: Document =>
-      println(document.toJson)
+      val jsonDocument = document.toJson()
+      val parser = new jsonParser(jsonDocument)
+      parser.parse()
+
       counter = counter + 1
     }
     println(counter)
