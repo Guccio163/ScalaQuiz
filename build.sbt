@@ -9,5 +9,5 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "4.9.0"
-libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.32"
+libraryDependencies += "org.slf4j" % "slf4j-nop" % "2.0.5"
 //libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.6"
