@@ -1,9 +1,6 @@
 package com.quiz.scala
 
-import org.mongodb.scala.bson.collection.Document
-import org.mongodb.scala.bson.{BsonArray, BsonDocument, BsonString, Document}
-//import org.mongodb.scala.bson.collection.mutable.Document
-
+import org.mongodb.scala.bson.{BsonArray, BsonDocument, BsonString}
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
