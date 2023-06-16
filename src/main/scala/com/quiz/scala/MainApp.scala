@@ -12,8 +12,8 @@ object MainApp extends App {
 //  qa.addQuestion()
 //  println(qa)
 
-  val quiz = new Quiz("Biology", 1, 10)
-  quiz.pickQuestions()
+  val quiz = new Quiz("Biology", 1, 3)
+  quiz.startQuiz()
 
 
 
