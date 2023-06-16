@@ -25,8 +25,8 @@ object MainApp extends App {
 
 //   Category/Level/Question/Ans1/Ans2/Ans3/Ans4/Correct
 
-//  val qa = new QuestionAdder("Maths", "Easy", "What is 2 + 2?",
-//    "3", "4","5","6", "B")
+//  val qa = new QuestionAdder("Maths", "Easy", "What is the next number in the sequence: 1, 3, 5, 7, ___ ?",
+//    "8", "9","10","11", "B")
 //  qa.addQuestion()
 
 

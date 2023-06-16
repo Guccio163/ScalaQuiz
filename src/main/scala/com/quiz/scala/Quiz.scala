@@ -95,15 +95,23 @@ class Quiz (val Category: String, val Level: String, val QuestionsCount: Int){
       serveQuestion(parser)
       serveAnswers(parser)
       totalscore = totalscore + validateAnswer(StdIn.readLine(), q)
+      Thread.sleep(1500) // Oczekiwanie na 2 sekundy
     }
     totalscore
   }
 
   def validateAnswer(ans: String, question: String): Int={
-    val correct = new jsonParser(question).parseCorrect()
-    if(ans.toUpperCase().equals(correct)){
+    val parser = new jsonParser(question)
+    val correct = parser.parseCorrect()
+    val ansUpper = ans.toUpperCase()
+    if(ansUpper.equals(correct)){
+      println(s"Yes, $ansUpper is a correct answer!")
+      println()
       1
     }else{
+      val content = parser.getAnswerContent(correct)
+      println(s"Wrong, correct answer is $correct: $content!")
+      println()
       0
     }
   }

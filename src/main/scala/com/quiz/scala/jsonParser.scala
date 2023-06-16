@@ -8,7 +8,7 @@ class jsonParser (val jsonString: String){
   val objectMapper: ObjectMapper = new ObjectMapper()
   val jsonNode: JsonNode = objectMapper.readTree(jsonString)
 
-  def parse(): Unit ={
+  def parseAndPrintEverything(): Unit ={
     val category: String = jsonNode.get("Category").asText()
     val level: String = jsonNode.get("Level").asText()
     val question: String = jsonNode.get("Q").asText()
@@ -42,7 +42,19 @@ class jsonParser (val jsonString: String){
     objectMapper.convertValue(answerArrayNode, classOf[Array[String]])
   }
 
+  def getAnswerContent(ansLetter: String): String ={
+    val answers = parseAnswers()
+    val result = ansLetter match {
+      case "A" => 0
+      case "B" => 1
+      case "C" => 2
+      case _ => 3
+    }
+    answers(result)
+  }
+
   def parseCorrect(): String = {
     jsonNode.get("Correct").asText()
   }
+
 }
