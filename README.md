@@ -1,5 +1,5 @@
 # Quiz.scala
-Prosty quiz napisany w `Scala` używając bazy danych `MongoDB`
+Prosty quiz napisany w języku `Scala` używając nierelacyjnej bazy danych `MongoDB`
 
 ## Opis Ogólny
 
