@@ -12,7 +12,7 @@ Program będzie musiał pobrać określone dane z bazy danych, przetworzyć je, 
 odpowiedzi i przetworzyć odpowiedzi a następnie zwrócić otrzymany wynik.
 
 ## Testy
-`AnyFunSuite``AnyFunSpec``AnyFreeSpec`
+`AnyFunSuite`, `AnyFunSpec` i `AnyFreeSpec` </br>
 Do projektu zostały dołączone również testy jednostkowe sprawdzające działanie funkcji przy wykorzystaniu wyżej wymienionych styli testowania.
 
 
