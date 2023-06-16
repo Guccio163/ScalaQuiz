@@ -5,6 +5,7 @@ import org.mongodb.scala._
 import org.mongodb.scala.bson.BsonDocument
 
 import scala.io.StdIn
+import scala.sys.exit
 import scala.util.Random
 //import org.mongodb.scala.bson.collection.immutable.Document
 import org.mongodb.scala.bson.collection.mutable
@@ -19,7 +20,7 @@ import scala.concurrent.{Await, Future}
 import scala.concurrent.Await.result
 import scala.concurrent.duration.DurationInt
 
-class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
+class Quiz (val Category: String, val Level: String, val QuestionsCount: Int){
 
   val ce = new ConnectionEst
   val collection: MongoCollection[BsonDocument] = ce.connect()
@@ -27,23 +28,16 @@ class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
 
   def pickQuestions(): Seq[String] ={
 
-    val findObservable: FindObservable[Document] = collection.find(equal("Category", "Biology"))
+    val findObservable: FindObservable[Document] = collection.find(and(equal("Category", Category), equal("Level", Level)))
     val futureResult: Future[Seq[Document]] = findObservable.toFuture()
     val result: Seq[Document] = Await.result(futureResult, 5.seconds)
     val QsCount = getQuestionsCount(result)
-    val randomNums = chooseRandom(QuestionsCount, QsCount)
-    var randomQs = Seq.empty[String]
-    var counter = 1
-
-    result.foreach { document: Document =>
-      if(randomNums.contains(counter)) {
-        val jsonDocument = document.toJson()
-        val temp = Seq(jsonDocument)
-        randomQs = randomQs ++ temp
-      }
-      counter = counter + 1
+    if(QsCount<QuestionsCount){
+      println("Too few questions in database")
+      exit(0)
     }
-    randomQs
+    val randomNums = chooseRandomNums(QuestionsCount, QsCount)
+    chooseRandomQuestions(result, randomNums)
   }
 
   def getQuestionsCount(Qs: Seq[Document]): Int ={
@@ -54,20 +48,37 @@ class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
     counter
   }
 
-  def chooseRandom(required: Int, all: Int): Set[Int] ={
-    val allQ: Seq[Int] = 1 to all
+  // Using Set and switching to Seq because cannot randomize the Seq- it's already unordered
+  def chooseRandomNums(required: Int, all: Int): Set[Int] ={
+    val allQuestions: Seq[Int] = 1 to all
     val random: Random = new Random(System.currentTimeMillis())
-    var shuffledSet: Seq[Int] = random.shuffle(allQ)
+    var shuffledSeq: Seq[Int] = random.shuffle(allQuestions)
     for (_ <- 1 to all-required) {
-      shuffledSet = shuffledSet.tail
+      shuffledSeq = shuffledSeq.tail
     }
-    shuffledSet.toSet
+    shuffledSeq.toSet
   }
 
-  def serveQuestion(jsonString: String): Unit={
-    val parser = new jsonParser(jsonString)
+  def chooseRandomQuestions(result : Seq[Document], randomNums: Set[Int]): Seq[String] ={
+    var randomQs = Seq.empty[String]
+    var counter = 1
+    result.foreach { document: Document =>
+      if (randomNums.contains(counter)) {
+        val jsonDocument = document.toJson()
+        val temp = Seq(jsonDocument)
+        randomQs = randomQs ++ temp
+      }
+      counter = counter + 1
+    }
+    randomQs
+  }
+
+  def serveQuestion(parser: jsonParser): Unit={
     println(parser.parseQuestion())
     println()
+  }
+
+  def serveAnswers(parser: jsonParser): Unit={
     val answers = parser.parseAnswers()
     for (i <- 0 to 3) {
       val ans = answers(i)
@@ -77,21 +88,20 @@ class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
     println()
   }
 
-  def serveQuestions(questions: Seq[String]): Int = {
+  def serveQuestionsGetScore(questions: Seq[String]): Int = {
     var totalscore = 0
     for (q <- questions) {
-      serveQuestion(q)
-      val ans = StdIn.readLine()
-      totalscore = totalscore + validateAnswer(ans, q)
+      val parser = new jsonParser(q)
+      serveQuestion(parser)
+      serveAnswers(parser)
+      totalscore = totalscore + validateAnswer(StdIn.readLine(), q)
     }
     totalscore
   }
 
   def validateAnswer(ans: String, question: String): Int={
-    val parser = new jsonParser(question)
-    val correct = parser.parseCorrect()
-    val Ans = ans.toUpperCase()
-    if(Ans.equals(correct)){
+    val correct = new jsonParser(question).parseCorrect()
+    if(ans.toUpperCase().equals(correct)){
       1
     }else{
       0
@@ -108,9 +118,16 @@ class Quiz (val Category: String, val Level: Int, val QuestionsCount: Int){
     result
   }
 
+  def printResults(score:Int, possible:Int): Unit={
+    println()
+    println("----------------Results----------------")
+    println(s"Congratulations, you scored $score/$possible points!")
+    println()
+  }
+
   def startQuiz(): Unit ={
     val questions = pickQuestions()
-    val score = serveQuestions(questions)
-    println(score)
+    val score = serveQuestionsGetScore(questions)
+    printResults(score, questions.length)
   }
 }
