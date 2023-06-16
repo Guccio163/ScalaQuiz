@@ -10,23 +10,26 @@ object MainApp extends App {
     val choice = StdIn.readLine().toInt
     if(choice == 1){
       println("What quiz would you like to solve today?")
-      println("Category:")
+      println("Category (Biology/Maths/ more available soon):")
       val category = StdIn.readLine()
-      println("Difficulty (Easy/Medium/Hard):")
+      println("Difficulty (Easy/Medium/Hard(soon):")
       val level = StdIn.readLine()
-      println("Questions count:")
+      println("Questions count (1-10):")
       val count = StdIn.readLine()
       Seq(category, level, count)
     }
     else {
-      Seq("Biology", "Easy", "3")
+      Seq("Biology", "Easy", "5")
     }
   }
 
 //   Category/Level/Question/Ans1/Ans2/Ans3/Ans4/Correct
-//  val qa = new QuestionAdder("Maths", "Easy", "What is the correct solution of 2+2*2?",
-//    "2", "4","6","8", "C")
+
+//  val qa = new QuestionAdder("Maths", "Easy", "What is 2 + 2?",
+//    "3", "4","5","6", "B")
 //  qa.addQuestion()
+
+
 
   val specs = getSpecs
   val quiz = new Quiz(specs.head, specs(1), specs(2).toInt)
