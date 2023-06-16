@@ -11,6 +11,10 @@ Zadaniem programu będzie skompletowanie quizu na podstawie podanych przez użyt
 Program będzie musiał pobrać określone dane z bazy danych, przetworzyć je, podać na konsolę, przyjąć
 odpowiedzi i przetworzyć odpowiedzi a następnie zwrócić otrzymany wynik.
 
+## Testy
+`AnyFunSuite``AnyFunSpec``AnyFreeSpec`
+Do projektu zostały dołączone również testy jednostkowe sprawdzające działanie funkcji przy wykorzystaniu wyżej wymienionych styli testowania.
+
 
 ## Planowane rozszerzenie
 
