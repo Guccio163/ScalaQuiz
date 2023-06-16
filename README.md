@@ -16,9 +16,10 @@ odpowiedzi i przetworzyć odpowiedzi a następnie zwrócić otrzymany wynik.
 Do projektu zostały dołączone również testy jednostkowe sprawdzające działanie funkcji przy wykorzystaniu wyżej wymienionych styli testowania.
 
 
-## Planowane rozszerzenie
+## Planowane rozszerzenia w przyszłości
 
 -Wyświetlanie quizu za pomocą strony HTML </br>
+-Zapisywanie konkretnego quizu (zbioru pytań) oraz wyniku gracza z nickiem
 -Dodanie kategorii ogólnych, możliwość przechowywania adresów do zdjęć wyświetlanych z quizem </br>
 -Dodanie liczenia czasu ograniczonego na rozwiązanie zadania i dodanie licznika pozostałego czasu
 
