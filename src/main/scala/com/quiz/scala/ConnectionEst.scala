@@ -6,7 +6,9 @@ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
 
 class ConnectionEst {
 
-  val mongoUrl = "mongodb://localhost:27017/?minPool=2&maxPool=10"
+//   aby wejść z innego komputera trzeba dodać adres IP w bazie po zalogowaniu, passy na konwersacji z Zosią
+//    val mongoUrl = "mongodb://localhost:27017/?minPool=2&maxPool=10"
+  val mongoUrl = "mongodb+srv://scalascalowa:0MzRgs7ngG9z5KJB@scalproject.vesnnvp.mongodb.net/"
   val dbName = "ScalaQuiz"
   val collectionName = "Questions"
 
