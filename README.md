@@ -25,4 +25,3 @@ Do projektu zostały dołączone również testy jednostkowe sprawdzające dzia�
 
 </br>
 
-<br> by **Wiktor Gut**
